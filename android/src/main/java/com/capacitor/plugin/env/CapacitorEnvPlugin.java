@@ -26,7 +26,16 @@ public class CapacitorEnvPlugin extends Plugin {
     @PluginMethod
     public void get(PluginCall call) {
         try {
-            call.success(getConfig().getConfigJSON());
+            JSObject result = new JSObject();
+
+            JSONObject json = getConfig().getConfigJSON();
+            Iterator<String> iter = json.keys();
+            while (iter.hasNext()) {
+                String key = iter.next();
+                result.put(key, json.getString(key));
+            }
+
+            call.success(result);
         } catch (Exception e) {
             call.error("Error reading CapacitorEnv values: " + e.getMessage());
         }
