@@ -15,4 +15,10 @@ public class CapacitorEnvPlugin: CAPPlugin {
             "value": implementation.echo(value)
         ])
     }
+    
+    @objc func get(_ call: CAPPluginCall) {
+        let config = getConfig() as PluginConfig
+        let json = config.getConfigJSON()
+        call.resolve(json)
+    }
 }
